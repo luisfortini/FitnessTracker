@@ -2,6 +2,7 @@ package co.tiagoaguiar.fitnesstracker
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import co.tiagoaguiar.fitnesstracker.model.Calc
 
 class ImcActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class ImcActivity : AppCompatActivity() {
         editHeight = findViewById(R.id.edit_imc_height)
 
         val btnSend: Button = findViewById(R.id.btn_imc_send)
+        val btnHistory: Button = findViewById(R.id.btn_imc_history)
 
         btnSend.setOnClickListener {
             if (!validate()) {
@@ -36,7 +39,7 @@ class ImcActivity : AppCompatActivity() {
             val height = editHeight.text.toString().toInt()
 
             val result = calculateImc(weight,height)
-            Log.d("teste", "IMC é $result")
+            //Log.d("teste", "IMC é $result")
 
             val textResultId = imcResponse(result)
 
@@ -45,18 +48,45 @@ class ImcActivity : AppCompatActivity() {
 
             dialog.setTitle(getString(R.string.imc_response, result))
             dialog.setMessage(textResultId)
-            dialog.setPositiveButton(android.R.string.ok, object: DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int){
+            dialog.setPositiveButton(android.R.string.ok){dialog, which ->
 
-                }
-            })
+            }
+
+            dialog.setNegativeButton(R.string.save){dialog, which ->
+                //Usar Thread para criar uma nova instância (execução) paralela temporária
+                //para não travar a interface do app
+                Thread{
+                    //Gravando dados no banco de dados
+                    val app = application as App
+                    val dao = app.db.calcDao()
+                    dao.insert(Calc(type="imc",res=result))
+
+                    runOnUiThread {
+
+                        val intent = Intent(this@ImcActivity,ListCalcActivity::class.java)
+                        intent.putExtra("type", "imc")
+                        startActivity(intent)
+                        //Toast.makeText(this@ImcActivity, R.string.saved,Toast.LENGTH_LONG).show()
+                    }
+
+
+                }.start()
+
+            }
 
             val d = dialog.create()
             d.show()
 
+            //Método de gerenciamento de teclado
             val service = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             service.hideSoftInputFromWindow(currentFocus?.windowToken,0)
 
+        }
+
+        btnHistory.setOnClickListener {
+            val intent = Intent(this@ImcActivity,ListCalcActivity::class.java)
+            intent.putExtra("type", "imc")
+            startActivity(intent)
         }
 
     }

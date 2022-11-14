@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         )
         //Criando Adapter já passando a função que é esperada para o evendo de click
         val adapter = MainAdapter(mainItems) { id ->
-            Log.i("teste", "Clicou no id $id")
             when (id) {
                 1 -> {
                     val intent = Intent(this, ImcActivity::class.java)
@@ -107,6 +106,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
 }

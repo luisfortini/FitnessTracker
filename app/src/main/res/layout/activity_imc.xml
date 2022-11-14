@@ -37,6 +37,11 @@
             android:id="@+id/btn_imc_send"
             android:text="@string/calc"
             />
+        <Button
+            style="@style/ButtonForm"
+            android:id="@+id/btn_imc_history"
+            android:text="@string/history"
+            />
 
     </LinearLayout>
 

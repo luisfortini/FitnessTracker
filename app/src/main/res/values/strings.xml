@@ -22,4 +22,11 @@
 
     <string name="imc_response">Seu IMC é: %1$.2f</string>
     <string name="label_tmb">TMB</string>
+    <string name="save">SALVAR</string>
+    <string name="saved">"Registro salvo com sucesso! "</string>
+    <string name="label_imc_list">IMC: </string>
+    <string name="label_status_list">"Status: "</string>
+    <string name="label_type_list">"Métrica: "</string>
+    <string name="label_date_list">"Data: "</string>
+    <string name="history">HISTÓRICO</string>
 </resources>
