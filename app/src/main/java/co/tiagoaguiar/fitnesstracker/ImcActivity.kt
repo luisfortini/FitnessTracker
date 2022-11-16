@@ -1,11 +1,11 @@
 package co.tiagoaguiar.fitnesstracker
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -18,6 +18,19 @@ class ImcActivity : AppCompatActivity() {
 
     private lateinit var editWeight: EditText
     private lateinit var editHeight: EditText
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.search_menu){
+            openListResult()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +75,8 @@ class ImcActivity : AppCompatActivity() {
                     dao.insert(Calc(type="imc",res=result))
 
                     runOnUiThread {
-
-                        val intent = Intent(this@ImcActivity,ListCalcActivity::class.java)
-                        intent.putExtra("type", "imc")
-                        startActivity(intent)
-                        //Toast.makeText(this@ImcActivity, R.string.saved,Toast.LENGTH_LONG).show()
+                        openListResult()
                     }
-
 
                 }.start()
 
@@ -84,11 +92,15 @@ class ImcActivity : AppCompatActivity() {
         }
 
         btnHistory.setOnClickListener {
-            val intent = Intent(this@ImcActivity,ListCalcActivity::class.java)
-            intent.putExtra("type", "imc")
-            startActivity(intent)
+           openListResult()
         }
 
+    }
+
+    private fun openListResult(){
+        val intent = Intent(this@ImcActivity,ListCalcActivity::class.java)
+        intent.putExtra("type", "imc")
+        startActivity(intent)
     }
 
     @StringRes
@@ -131,7 +143,6 @@ class ImcActivity : AppCompatActivity() {
             return false
         }
          */
-
     }
 
 }

@@ -29,4 +29,9 @@
     <string name="label_type_list">"Métrica: "</string>
     <string name="label_date_list">"Data: "</string>
     <string name="history">HISTÓRICO</string>
+    <string name="search">Buscar</string>
+    <string name="tmb_desc">TMB  é o cálculo para descobrir a quantidade calórica que o corpo
+    necessida com base no seu estilo de vida.</string>
+    <string name="age">Idade</string>
+    <string name="tmb_response">Seu TMB é: %1$.2f</string>
 </resources>
